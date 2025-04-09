@@ -6,7 +6,7 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 
-export type labelSize = "small" | "default";
+export type LabelSize = "small" | "default";
 
 @Component({
   selector: "[tedi-label]",
@@ -27,7 +27,7 @@ export class LabelComponent {
    * Size of the label.
    * @default default
    */
-  size = input<labelSize>("default");
+  size = input<LabelSize>("default");
   /**
    * Whether label is required.
    * @default false

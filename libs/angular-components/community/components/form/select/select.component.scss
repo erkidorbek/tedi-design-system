@@ -9,12 +9,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    // height: 40px;
-    // padding: 0 12px;
-    // border: 1px solid;
-    // border-color: #ccc;
-    // border-radius: 4px;
-    background-color: #fff;
     cursor: pointer;
     transition:
       border-color 0.3s,
@@ -32,6 +26,14 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #333;
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  &__clear-btn {
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
   }
 
   &__arrow {

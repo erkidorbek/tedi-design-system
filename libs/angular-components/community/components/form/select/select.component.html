@@ -17,6 +17,16 @@
     >
       {{ selectedLabel() }}
     </span>
+    @if (value() && !disabled()) {
+      <button
+        type="button"
+        class="tedi-select__clear-btn"
+        aria-label="Clear selection"
+        (click)="clearSelection($event)"
+      >
+        <tedi-icon name="close" [size]="16" color="tertiary" />
+      </button>
+    }
     <span class="tedi-select__arrow"></span>
   </button>
 

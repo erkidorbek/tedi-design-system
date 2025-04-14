@@ -16,6 +16,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { InputComponent } from "../input/input.component";
+import { IconComponent } from "@tehik-ee/tedi-angular/tedi";
 
 export type SelectSize = "small" | "default";
 export type SelectState = "valid" | "error" | "default";
@@ -31,7 +32,7 @@ export interface SelectOption {
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",
   standalone: true,
-  imports: [CommonModule, InputComponent],
+  imports: [CommonModule, InputComponent, IconComponent],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -166,6 +167,13 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
 
     this.isOpen.update((value) => !value);
     this.onTouched();
+  }
+
+  clearSelection(event: Event): void {
+    event.stopPropagation(); // Prevent triggering the dropdown toggle
+    this.value.set(null);
+    this.onChange(null);
+    this.selectionChange.emit(null);
   }
 
   selectOption(option: SelectOption): void {

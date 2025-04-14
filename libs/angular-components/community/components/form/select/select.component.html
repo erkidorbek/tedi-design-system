@@ -1,22 +1,32 @@
-<div #selectContainer class="tedi-select-container">
-  <div
-    class="tedi-select-trigger"
+<div #selectContainer class="tedi-select__container">
+  <button
+    tedi-input
+    class="tedi-select__trigger"
+    type="button"
     role="combobox"
     aria-haspopup="listbox"
+    [attr.aria-expanded]="isOpen()"
     (click)="toggleDropdown()"
     [attr.tabindex]="disabled() ? -1 : 0"
+    [size]="size()"
+    [state]="state()"
   >
-    <span class="tedi-select-value">{{ selectedLabel() }}</span>
-    <span class="tedi-select-arrow"></span>
-  </div>
+    <span
+      class="tedi-select__value"
+      [class.tedi-select__placeholder]="!value()"
+    >
+      {{ selectedLabel() }}
+    </span>
+    <span class="tedi-select__arrow"></span>
+  </button>
 
   @if (isOpen()) {
-    <div class="tedi-select-dropdown">
-      <ul role="listbox" class="tedi-select-options">
+    <div class="tedi-select__dropdown">
+      <ul role="listbox" class="tedi-select__options">
         @for (option of options(); track option.value) {
           <li
             role="option"
-            class="tedi-select-option"
+            class="tedi-select__option"
             [class.tedi-select-option--selected]="value() === option.value"
             [class.tedi-select-option--disabled]="option.disabled"
             [attr.aria-selected]="value() === option.value"

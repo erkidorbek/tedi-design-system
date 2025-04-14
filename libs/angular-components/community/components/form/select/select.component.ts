@@ -15,6 +15,7 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { InputComponent } from "../input/input.component";
 
 export type SelectSize = "small" | "default";
 export type SelectState = "valid" | "error" | "default";
@@ -30,7 +31,7 @@ export interface SelectOption {
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, InputComponent],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -70,15 +71,33 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
 
   /**
    * Placeholder text when no value selected.
-   * @default "Select an option"
+   * @default ""
    */
-  placeholder = input<string>("Select an option");
+  placeholder = input<string>(" ");
 
   /**
    * Available options for the select.
    * @default []
    */
-  options = input<SelectOption[]>([]);
+  options = input<SelectOption[] | any[]>([]);
+
+  /**
+   * Name of the property to use as the option value.
+   * @default "value"
+   */
+  valueKey = input<string>("value");
+
+  /**
+   * Name of the property to use as the option label.
+   * @default "label"
+   */
+  labelKey = input<string>("label");
+
+  /**
+   * Name of the property to use to determine if an option is disabled.
+   * @default "disabled"
+   */
+  disabledKey = input<string>("disabled");
 
   /**
    * Event emitted when selection changes.
@@ -90,9 +109,27 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   isOpen = signal<boolean>(false);
 
   // Computed properties
+  normalizedOptions = computed(() => {
+    const options = this.options();
+    if (!options || options.length === 0) return [];
+
+    // Check if options are already in the correct format
+    if (options[0] && "value" in options[0] && "label" in options[0]) {
+      return options as SelectOption[];
+    }
+
+    // Otherwise, normalize the options based on the configured keys
+    return options.map((item) => ({
+      value: item[this.valueKey()],
+      label: item[this.labelKey()],
+      disabled: this.disabledKey() ? !!item[this.disabledKey()] : false,
+      originalItem: item, // Keep reference to original item
+    }));
+  });
+
   selectedLabel = computed(() => {
     const currentValue = this.value();
-    const found = this.options()?.find(
+    const found = this.normalizedOptions()?.find(
       (option) => option.value === currentValue,
     );
     return found?.label || this.placeholder();
@@ -100,10 +137,10 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
 
   modifierClasses = computed(() => {
     const modifiers = [];
-    if (this.size()) modifiers.push(`tedi-select--${this.size()}`);
-    if (this.state()) modifiers.push(`tedi-select--${this.state()}`);
+    // if (this.size()) modifiers.push(`tedi-select--${this.size()}`);
+    // if (this.state()) modifiers.push(`tedi-select--${this.state()}`);
     if (this.isOpen()) modifiers.push("tedi-select--open");
-    if (this.disabled()) modifiers.push("tedi-select--disabled");
+    // if (this.disabled()) modifiers.push("tedi-select--disabled");
     return modifiers.join(" ");
   });
 
@@ -122,10 +159,6 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-
-  // setDisabledState(isDisabled: boolean): void {
-  //   this.disabled.update(() => isDisabled);
-  // }
 
   // UI interaction methods
   toggleDropdown(): void {

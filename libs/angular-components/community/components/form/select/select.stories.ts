@@ -1,23 +1,12 @@
 import { moduleMetadata, StoryObj, Meta } from "@storybook/angular";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SelectComponent } from "./select.component";
-import { LabelComponent } from "../label/label.component";
-import { FormFieldComponent } from "../form-field/form-field.component";
-import { FeedbackTextComponent } from "../feedback-text/feedback-text.component";
 
 export default {
   title: "Community Angular/Form/Select",
   component: SelectComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        SelectComponent,
-        LabelComponent,
-        FormFieldComponent,
-        FeedbackTextComponent,
-      ],
+      imports: [SelectComponent],
     }),
   ],
   argTypes: {
@@ -25,21 +14,12 @@ export default {
     state: { control: "radio", options: ["default", "valid", "error"] },
     disabled: { control: "boolean" },
     placeholder: { control: "text" },
-    labelText: { control: "text" },
-    required: { control: "boolean" },
-    hintText: { control: "text" },
-    validText: { control: "text" },
-    errorText: { control: "text" },
   },
 } as Meta<SelectComponent>;
 
 type Story = StoryObj<
   SelectComponent & {
     labelText: string;
-    required: boolean;
-    hintText: string;
-    validText: string;
-    errorText: string;
   }
 >;
 
@@ -60,8 +40,6 @@ export const Default: Story = {
         console.log("Selection changed:", value),
     },
     template: `
-      <tedi-form-field>
-        <label tedi-label [for]="'storybook-select'" [required]="required">{{ labelText }}</label>
         <tedi-select
           id="storybook-select"
           [size]="size"
@@ -70,15 +48,7 @@ export const Default: Story = {
           [placeholder]="placeholder"
           [options]="options"
           (selectionChange)="onSelectionChange($event)"
-        ></tedi-select>
-        @if (errorText && state === 'error') {
-          <tedi-feedback-text type="error" [text]="errorText" />
-        } @else if (validText && state === 'valid') {
-          <tedi-feedback-text type="valid" [text]="validText" />
-        } @else if (hintText) {
-          <tedi-feedback-text type="hint" [text]="hintText" />
-        }
-      </tedi-form-field>
+        />
     `,
   }),
   args: {
@@ -86,11 +56,6 @@ export const Default: Story = {
     state: "default",
     disabled: false,
     placeholder: "Select an option",
-    labelText: "Select option",
-    required: false,
-    hintText: "Please select one option from the list",
-    validText: "",
-    errorText: "",
   },
 };
 
@@ -99,8 +64,6 @@ export const WithValidFeedback: Story = {
   args: {
     ...Default.args,
     state: "valid",
-    hintText: "",
-    validText: "Valid selection",
   },
 };
 
@@ -109,8 +72,6 @@ export const WithErrorFeedback: Story = {
   args: {
     ...Default.args,
     state: "error",
-    hintText: "",
-    errorText: "Please select a valid option",
   },
 };
 
@@ -127,13 +88,5 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
-  },
-};
-
-export const Required: Story = {
-  ...Default,
-  args: {
-    ...Default.args,
-    required: true,
   },
 };

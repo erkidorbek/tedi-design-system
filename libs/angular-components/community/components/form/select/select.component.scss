@@ -42,63 +42,63 @@
     transition: transform 0.2s;
   }
 
-  &__dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    max-height: 200px;
-    margin-top: 4px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    overflow-y: auto;
-  }
+  // &__dropdown {
+  //   position: absolute;
+  //   top: 100%;
+  //   left: 0;
+  //   width: 100%;
+  //   max-height: 200px;
+  //   margin-top: 4px;
+  //   background-color: #fff;
+  //   border: 1px solid #ccc;
+  //   border-radius: 4px;
+  //   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  //   z-index: 1000;
+  //   overflow-y: auto;
+  // }
 
-  &__options {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  // &__options {
+  //   list-style: none;
+  //   padding: 0;
+  //   margin: 0;
+  // }
 
-  &__option {
-    padding: 8px 12px;
-    cursor: pointer;
+  // &__option {
+  //   padding: 8px 12px;
+  //   cursor: pointer;
 
-    &:hover:not(.tedi-select__option--disabled) {
-      background-color: #f5f5f5;
-    }
+  //   &:hover:not(.tedi-select__option--disabled) {
+  //     background-color: #f5f5f5;
+  //   }
 
-    &--selected {
-      background-color: #e6f7ff;
-      font-weight: 500;
-    }
+  //   &--selected {
+  //     background-color: #e6f7ff;
+  //     font-weight: 500;
+  //   }
 
-    &--disabled {
-      color: #ccc;
-      cursor: not-allowed;
-    }
-  }
+  //   &--disabled {
+  //     color: #ccc;
+  //     cursor: not-allowed;
+  //   }
+  // }
 
-  &--open {
-    .tedi-select__arrow {
-      transform: rotate(180deg);
-    }
-  }
+  // &--open {
+  //   .tedi-select__arrow {
+  //     transform: rotate(180deg);
+  //   }
+  // }
 
-  &--disabled {
-    opacity: 0.6;
+  // &--disabled {
+  //   opacity: 0.6;
 
-    .tedi-select__trigger {
-      background-color: #f5f5f5;
-      cursor: not-allowed;
+  //   .tedi-select__trigger {
+  //     background-color: #f5f5f5;
+  //     cursor: not-allowed;
 
-      &:focus {
-        border-color: #ccc;
-        box-shadow: none;
-      }
-    }
-  }
+  //     &:focus {
+  //       border-color: #ccc;
+  //       box-shadow: none;
+  //     }
+  //   }
+  // }
 }

@@ -1,12 +1,14 @@
 import { moduleMetadata, StoryObj, Meta } from "@storybook/angular";
 import { SelectComponent } from "./select.component";
+import { DropdownComponent } from "./dropdown/dropdown.component";
+import { CdkMenuModule } from "@angular/cdk/menu";
 
 export default {
   title: "Community Angular/Form/Select",
   component: SelectComponent,
   decorators: [
     moduleMetadata({
-      imports: [SelectComponent],
+      imports: [SelectComponent, DropdownComponent, CdkMenuModule],
     }),
   ],
   argTypes: {
@@ -88,5 +90,37 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
+  },
+};
+
+export const WithCustomOptions: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      customOptions: [
+        { id: 1, name: "First Option", isDisabled: false },
+        { id: 2, name: "Second Option", isDisabled: false },
+        { id: 3, name: "Third Option", isDisabled: true },
+      ],
+      onSelectionChange: (value: any) =>
+        console.log("Selection changed:", value),
+    },
+    template: `
+        <tedi-select
+          id="storybook-select-custom"
+          [size]="size"
+          [state]="state"
+          [disabled]="disabled"
+          [placeholder]="placeholder"
+          [options]="customOptions"
+          valueKey="id"
+          labelKey="name"
+          disabledKey="isDisabled"
+          (selectionChange)="onSelectionChange($event)"
+        />
+    `,
+  }),
+  args: {
+    ...Default.args,
   },
 };

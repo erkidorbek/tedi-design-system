@@ -1,0 +1,26 @@
+@use "@tehik-ee/tedi-core/mixins";
+
+.tedi-dropdown {
+  @include mixins.responsive-styles(--_padding-y, form-select-item-padding-y);
+  @include mixins.responsive-styles(--_padding-x, form-select-item-padding-x);
+
+  --_background-color: var(--dropdown-item-default-background);
+
+  display: block;
+  margin-top: 4px; // TODO: find out what variable to use for gap
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__option {
+    background-color: var(--_background-color);
+    padding: var(--_padding-y) var(--_padding-x);
+    &:hover:not(.tedi-dropdown__option--disabled) {
+      --_background-color: var(--dropdown-item-hover-background);
+      color: var(--dropdown-item-hover-text);
+    }
+  }
+}

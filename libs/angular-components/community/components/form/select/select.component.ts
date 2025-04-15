@@ -17,6 +17,8 @@ import { CommonModule } from "@angular/common";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { InputComponent } from "../input/input.component";
 import { IconComponent } from "@tehik-ee/tedi-angular/tedi";
+import { CdkMenuTrigger, CdkMenuModule } from "@angular/cdk/menu";
+import { DropdownComponent } from "./dropdown/dropdown.component";
 
 export type SelectSize = "small" | "default";
 export type SelectState = "valid" | "error" | "default";
@@ -32,7 +34,13 @@ export interface SelectOption {
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",
   standalone: true,
-  imports: [CommonModule, InputComponent, IconComponent],
+  imports: [
+    CommonModule,
+    InputComponent,
+    IconComponent,
+    CdkMenuModule,
+    DropdownComponent,
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -51,6 +59,7 @@ export interface SelectOption {
 })
 export class SelectComponent implements ControlValueAccessor, OnDestroy {
   @ViewChild("selectContainer") selectContainer!: ElementRef;
+  @ViewChild(CdkMenuTrigger) menuTrigger!: CdkMenuTrigger;
 
   /**
    * Size of the select.
@@ -162,12 +171,15 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   // UI interaction methods
-  toggleDropdown(): void {
-    if (this.disabled()) return;
+  // toggleDropdown(): void {
+  //   if (this.disabled()) return;
 
-    this.isOpen.update((value) => !value);
-    this.onTouched();
-  }
+  //   if (this.menuTrigger) {
+  //     this.menuTrigger.toggle();
+  //   }
+
+  //   this.onTouched();
+  // }
 
   clearSelection(event: Event): void {
     event.stopPropagation(); // Prevent triggering the dropdown toggle
@@ -177,24 +189,26 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   selectOption(option: SelectOption): void {
+    console.log(option);
     if (this.disabled() || option.disabled) return;
 
     this.value.set(option.value);
     this.onChange(option.value);
     this.selectionChange.emit(option.value);
-    this.isOpen.set(false);
-  }
 
-  @HostListener("document:click", ["$event"])
-  onClickOutside(event: Event): void {
-    if (
-      this.isOpen() &&
-      this.selectContainer &&
-      !this.selectContainer.nativeElement.contains(event.target)
-    ) {
-      this.isOpen.set(false);
+    // Close the menu when an option is selected
+    if (this.menuTrigger.isOpen()) {
+      this.menuTrigger.close();
     }
   }
+
+  // onMenuOpened(): void {
+  //   this.isOpen.set(true);
+  // }
+
+  // onMenuClosed(): void {
+  //   this.isOpen.set(false);
+  // }
 
   @HostListener("keydown", ["$event"])
   onKeyDown(event: KeyboardEvent): void {
@@ -202,19 +216,22 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
 
     switch (event.key) {
       case "Escape":
-        this.isOpen.set(false);
+        if (this.menuTrigger.isOpen()) {
+          this.menuTrigger.close();
+          event.preventDefault();
+        }
         break;
       case "Enter":
       case " ":
-        if (!this.isOpen()) {
-          this.isOpen.set(true);
+        if (!this.menuTrigger.isOpen()) {
+          this.menuTrigger.open();
           event.preventDefault();
         }
         break;
       case "ArrowDown":
       case "ArrowUp":
-        if (!this.isOpen()) {
-          this.isOpen.set(true);
+        if (!this.menuTrigger.isOpen()) {
+          this.menuTrigger.open();
           event.preventDefault();
         }
         break;

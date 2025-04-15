@@ -74,7 +74,7 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
    * Placeholder text when no value selected.
    * @default ""
    */
-  placeholder = input<string>(" ");
+  placeholder = input<string>("");
 
   /**
    * Available options for the select.

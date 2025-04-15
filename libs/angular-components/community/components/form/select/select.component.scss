@@ -1,4 +1,6 @@
 .tedi-select {
+  --_placeholder-color: var(--form-input-text-placeholder);
+
   &__container {
     position: relative;
     width: 100%;
@@ -10,24 +12,18 @@
     justify-content: space-between;
     width: 100%;
     cursor: pointer;
-    transition:
-      border-color 0.3s,
-      box-shadow 0.3s;
-
-    &:focus {
-      outline: none;
-      border-color: #0066cc;
-      box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.25);
-    }
   }
 
   &__value {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #333;
     flex-grow: 1;
     text-align: left;
+  }
+
+  &__placeholder {
+    color: var(--_placeholder-color);
   }
 
   &__clear-btn {
@@ -71,7 +67,7 @@
     padding: 8px 12px;
     cursor: pointer;
 
-    &:hover:not(.tedi-select-option--disabled) {
+    &:hover:not(.tedi-select__option--disabled) {
       background-color: #f5f5f5;
     }
 

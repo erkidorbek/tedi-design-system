@@ -6,7 +6,7 @@ import {
   Output,
   ViewEncapsulation,
 } from "@angular/core";
-import { CdkMenuModule } from "@angular/cdk/menu";
+import { CdkMenu, CdkMenuModule } from "@angular/cdk/menu";
 import { SelectOption } from "../../form/select/select.component";
 
 @Component({
@@ -20,6 +20,7 @@ import { SelectOption } from "../../form/select/select.component";
   host: {
     "[class.tedi-dropdown]": "true",
   },
+  hostDirectives: [CdkMenu],
 })
 export class DropdownComponent {
   /**

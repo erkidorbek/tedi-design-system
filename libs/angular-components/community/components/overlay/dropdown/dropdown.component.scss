@@ -23,7 +23,8 @@
     border: none;
     background-color: var(--_background-color);
     padding: var(--_padding-y) var(--_padding-x);
-    &:hover:not(.tedi-dropdown__option--disabled) {
+    &:hover:not(.tedi-dropdown__option--disabled),
+    &:focus:not(.tedi-dropdown__option--disabled) {
       --_background-color: var(--dropdown-item-hover-background);
       color: var(--dropdown-item-hover-text);
     }

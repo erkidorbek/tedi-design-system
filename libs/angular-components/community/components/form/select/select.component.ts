@@ -46,7 +46,6 @@ export interface SelectOption {
   host: {
     "[class.tedi-select]": "true",
     "[class]": "modifierClasses()",
-    "[attr.aria-expanded]": "isOpen()",
     "[attr.aria-disabled]": 'disabled() ? "true" : null',
   },
   providers: [

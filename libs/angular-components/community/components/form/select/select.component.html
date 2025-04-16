@@ -2,9 +2,6 @@
   tedi-input
   class="tedi-select__trigger"
   type="button"
-  role="combobox"
-  aria-haspopup="listbox"
-  [attr.aria-expanded]="isOpen()"
   [attr.tabindex]="disabled() ? -1 : 0"
   [size]="size()"
   [state]="state()"
@@ -24,12 +21,15 @@
       <tedi-icon name="close" [size]="16" color="tertiary" />
     </button>
   }
-  <span class="tedi-select__arrow"></span>
+
+  <tedi-icon
+    [name]="isOpen() ? 'arrow_drop_down' : 'arrow_drop_up'"
+    color="secondary"
+  />
 </button>
 
 <ng-template #selectMenu>
   <tedi-dropdown
-    cdkMenu
     [style.width.px]="width()"
     [options]="normalizedOptions()"
     [selectedValue]="value()"

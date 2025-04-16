@@ -29,6 +29,8 @@
 
 <ng-template #selectMenu>
   <tedi-dropdown
+    cdkMenu
+    [style.width.px]="width()"
     [options]="normalizedOptions()"
     [selectedValue]="value()"
     (optionSelected)="selectOption($event)"

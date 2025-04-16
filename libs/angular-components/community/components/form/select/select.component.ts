@@ -2,10 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   EventEmitter,
   forwardRef,
+  inject,
   input,
   OnDestroy,
+  OnInit,
   Output,
   signal,
   ViewEncapsulation,
@@ -54,9 +57,10 @@ export interface SelectOption {
     },
   ],
 })
-export class SelectComponent implements ControlValueAccessor, OnDestroy {
-  // @ViewChild("selectContainer") selectContainer!: ElementRef;
-  // @ViewChild(CdkMenuTrigger) menuTrigger!: CdkMenuTrigger;
+export class SelectComponent
+  implements ControlValueAccessor, OnInit, OnDestroy
+{
+  #elementRef = inject(ElementRef);
 
   /**
    * Size of the select.
@@ -114,6 +118,17 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   // Internal signals
   value = signal<any>(null);
   isOpen = signal<boolean>(false);
+  width = signal<number>(0);
+
+  ngOnInit(): void {
+    // Initialize the width of the select element
+    this.width.set(this.getElementWidth());
+
+    // Listen for window resize events to update width
+    window.addEventListener("resize", () => {
+      this.width.set(this.getElementWidth());
+    });
+  }
 
   // Computed properties
   normalizedOptions = computed(() => {
@@ -168,8 +183,8 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   clearSelection(event: Event): void {
-    event.stopPropagation(); // Prevent triggering the dropdown toggle
-    this.value.set(null);
+    event.stopPropagation();
+    this.value.set(null); // writeValue(null) here?
     this.onChange(null);
     this.selectionChange.emit(null);
   }
@@ -180,6 +195,10 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
     this.value.set(option.value);
     this.onChange(option.value);
     this.selectionChange.emit(option.value);
+  }
+
+  getElementWidth(): number {
+    return this.#elementRef.nativeElement?.offsetWidth ?? 0;
   }
 
   ngOnDestroy(): void {

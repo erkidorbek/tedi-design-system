@@ -2,23 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  ElementRef,
   EventEmitter,
   forwardRef,
-  HostListener,
   input,
   OnDestroy,
   Output,
   signal,
-  ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { InputComponent } from "../input/input.component";
 import { IconComponent } from "@tehik-ee/tedi-angular/tedi";
-import { CdkMenuTrigger, CdkMenuModule } from "@angular/cdk/menu";
-import { DropdownComponent } from "./dropdown/dropdown.component";
+import { CdkMenuModule } from "@angular/cdk/menu";
+import { DropdownComponent } from "../../overlay/dropdown/dropdown.component";
 
 export type SelectSize = "small" | "default";
 export type SelectState = "valid" | "error" | "default";
@@ -58,8 +55,8 @@ export interface SelectOption {
   ],
 })
 export class SelectComponent implements ControlValueAccessor, OnDestroy {
-  @ViewChild("selectContainer") selectContainer!: ElementRef;
-  @ViewChild(CdkMenuTrigger) menuTrigger!: CdkMenuTrigger;
+  // @ViewChild("selectContainer") selectContainer!: ElementRef;
+  // @ViewChild(CdkMenuTrigger) menuTrigger!: CdkMenuTrigger;
 
   /**
    * Size of the select.
@@ -89,7 +86,7 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
    * Available options for the select.
    * @default []
    */
-  options = input<SelectOption[] | any[]>([]);
+  options = input.required<SelectOption[] | any[]>();
 
   /**
    * Name of the property to use as the option value.
@@ -170,17 +167,6 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
     this.onTouched = fn;
   }
 
-  // UI interaction methods
-  // toggleDropdown(): void {
-  //   if (this.disabled()) return;
-
-  //   if (this.menuTrigger) {
-  //     this.menuTrigger.toggle();
-  //   }
-
-  //   this.onTouched();
-  // }
-
   clearSelection(event: Event): void {
     event.stopPropagation(); // Prevent triggering the dropdown toggle
     this.value.set(null);
@@ -189,53 +175,11 @@ export class SelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   selectOption(option: SelectOption): void {
-    console.log(option);
     if (this.disabled() || option.disabled) return;
 
     this.value.set(option.value);
     this.onChange(option.value);
     this.selectionChange.emit(option.value);
-
-    // Close the menu when an option is selected
-    if (this.menuTrigger.isOpen()) {
-      this.menuTrigger.close();
-    }
-  }
-
-  // onMenuOpened(): void {
-  //   this.isOpen.set(true);
-  // }
-
-  // onMenuClosed(): void {
-  //   this.isOpen.set(false);
-  // }
-
-  @HostListener("keydown", ["$event"])
-  onKeyDown(event: KeyboardEvent): void {
-    if (this.disabled()) return;
-
-    switch (event.key) {
-      case "Escape":
-        if (this.menuTrigger.isOpen()) {
-          this.menuTrigger.close();
-          event.preventDefault();
-        }
-        break;
-      case "Enter":
-      case " ":
-        if (!this.menuTrigger.isOpen()) {
-          this.menuTrigger.open();
-          event.preventDefault();
-        }
-        break;
-      case "ArrowDown":
-      case "ArrowUp":
-        if (!this.menuTrigger.isOpen()) {
-          this.menuTrigger.open();
-          event.preventDefault();
-        }
-        break;
-    }
   }
 
   ngOnDestroy(): void {

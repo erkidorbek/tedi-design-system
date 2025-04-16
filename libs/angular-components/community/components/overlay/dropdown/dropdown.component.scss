@@ -3,19 +3,24 @@
 .tedi-dropdown {
   @include mixins.responsive-styles(--_padding-y, form-select-item-padding-y);
   @include mixins.responsive-styles(--_padding-x, form-select-item-padding-x);
+  @include mixins.responsive-styles(--_border-radius, form-select-item-radius);
 
   --_background-color: var(--dropdown-item-default-background);
+  --_border-color: var(--card-border-primary);
 
   display: block;
-  margin-top: 4px; // TODO: find out what variable to use for gap
-
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  overflow: hidden;
+  width: 100%;
+  margin: 4px 0; // TODO: find out what variable to use for gap
+  border: 1px solid;
+  border-color: var(--_border-color);
+  border-radius: var(--_border-radius);
 
   &__option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
     background-color: var(--_background-color);
     padding: var(--_padding-y) var(--_padding-x);
     &:hover:not(.tedi-dropdown__option--disabled) {

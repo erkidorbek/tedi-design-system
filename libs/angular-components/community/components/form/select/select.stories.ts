@@ -1,6 +1,6 @@
 import { moduleMetadata, StoryObj, Meta } from "@storybook/angular";
 import { SelectComponent } from "./select.component";
-import { DropdownComponent } from "./dropdown/dropdown.component";
+import { DropdownComponent } from "../../overlay/dropdown/dropdown.component";
 import { CdkMenuModule } from "@angular/cdk/menu";
 
 export default {

@@ -6,18 +6,13 @@ import {
   Output,
   ViewEncapsulation,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { CdkMenu, CdkMenuModule, CdkMenuItem } from "@angular/cdk/menu";
-import { SelectOption } from "../select.component";
-import {
-  CardComponent,
-  CardContentComponent,
-} from "community/components/cards/card";
+import { CdkMenuModule } from "@angular/cdk/menu";
+import { SelectOption } from "../../form/select/select.component";
 
 @Component({
   selector: "tedi-dropdown",
   standalone: true,
-  imports: [CdkMenuModule, CardComponent, CardContentComponent],
+  imports: [CdkMenuModule],
   templateUrl: "./dropdown.component.html",
   styleUrl: "./dropdown.component.scss",
   encapsulation: ViewEncapsulation.None,

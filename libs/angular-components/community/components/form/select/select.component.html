@@ -1,41 +1,36 @@
-<div #selectContainer class="tedi-select__container">
-  <button
-    tedi-input
-    class="tedi-select__trigger"
-    type="button"
-    role="combobox"
-    aria-haspopup="listbox"
-    [attr.aria-expanded]="isOpen()"
-    [attr.tabindex]="disabled() ? -1 : 0"
-    [size]="size()"
-    [state]="state()"
-    [cdkMenuTriggerFor]="selectMenu"
-  >
-    <span
-      class="tedi-select__value"
-      [class.tedi-select__placeholder]="!value()"
+<button
+  tedi-input
+  class="tedi-select__trigger"
+  type="button"
+  role="combobox"
+  aria-haspopup="listbox"
+  [attr.aria-expanded]="isOpen()"
+  [attr.tabindex]="disabled() ? -1 : 0"
+  [size]="size()"
+  [state]="state()"
+  [cdkMenuTriggerFor]="selectMenu"
+>
+  <span class="tedi-select__value" [class.tedi-select__placeholder]="!value()">
+    {{ selectedLabel() }}
+  </span>
+
+  @if (value() && !disabled()) {
+    <button
+      type="button"
+      class="tedi-select__clear-btn"
+      aria-label="Clear selection"
+      (click)="clearSelection($event)"
     >
-      {{ selectedLabel() }}
-    </span>
+      <tedi-icon name="close" [size]="16" color="tertiary" />
+    </button>
+  }
+  <span class="tedi-select__arrow"></span>
+</button>
 
-    @if (value() && !disabled()) {
-      <button
-        type="button"
-        class="tedi-select__clear-btn"
-        aria-label="Clear selection"
-        (click)="clearSelection($event)"
-      >
-        <tedi-icon name="close" [size]="16" color="tertiary" />
-      </button>
-    }
-    <span class="tedi-select__arrow"></span>
-  </button>
-
-  <ng-template #selectMenu>
-    <tedi-dropdown
-      [options]="normalizedOptions()"
-      [selectedValue]="value()"
-      (optionSelected)="selectOption($event)"
-    />
-  </ng-template>
-</div>
+<ng-template #selectMenu>
+  <tedi-dropdown
+    [options]="normalizedOptions()"
+    [selectedValue]="value()"
+    (optionSelected)="selectOption($event)"
+  />
+</ng-template>

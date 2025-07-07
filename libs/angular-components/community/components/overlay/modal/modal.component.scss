@@ -1,5 +1,6 @@
 @use "@angular/cdk" as cdk;
 @use "@tehik-ee/tedi-core/mixins";
+@use "@tehik-ee/tedi-core/bootstrap-utility/breakpoints";
 @include cdk.overlay();
 
 @mixin pane-max-width($size) {
@@ -78,9 +79,12 @@ $modal-breapoints: (xs, sm, md, lg, xl);
 .tedi-modal__container {
   display: flex;
   flex-direction: column;
-  max-height: 95dvh;
+  max-height: 100dvh;
   background-color: var(--modal-background);
   border: var(--_modal-border);
 
   @include mixins.responsive-styles(border-radius, modal-radius);
+  @include breakpoints.media-breakpoint-up(md) {
+    max-height: 95dvh;
+  }
 }

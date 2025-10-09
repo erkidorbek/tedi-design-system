@@ -346,6 +346,52 @@ export const clearableTags: Story = {
   }),
 };
 
+export const multiselectManyOptions: Story = {
+  render: (args) => ({
+    template: `
+      <tedi-multiselect
+        [inputId]="inputId"
+        [placeholder]="placeholder"
+        [label]="label"
+        [feedbackText]="feedbackText"
+        [required]="required"
+        [state]="state"
+        [size]="size"
+        [multiRow]="multiRow"
+        [clearableTags]="clearableTags"
+        [selectAll]="selectAll"
+        [selectableGroups]="selectableGroups"
+        [clearable]="clearable"
+        [disabled]="disabled"
+      >
+        <tedi-select-option value="option1" label="Option 1" />
+        <tedi-select-option value="option2" label="Option 2" />
+        <tedi-select-option value="option3" label="Option 3" />
+        <tedi-select-option value="option4" label="Option 4" />
+        <tedi-select-option value="option5" label="Option 5" />
+        <tedi-select-option value="option6" label="Option 6" />
+        <tedi-select-option value="option7" label="Option 7" />
+        <tedi-select-option value="option8" label="Option 8" />
+        <tedi-select-option value="option9" label="Option 9" />
+        <tedi-select-option value="option10" label="Option 10" />
+        <tedi-select-option value="option11" label="Option 11" />
+        <tedi-select-option value="option12" label="Option 12" />
+        <tedi-select-option value="option13" label="Option 13" />
+        <tedi-select-option value="option14" label="Option 14" />
+        <tedi-select-option value="option15" label="Option 15" />
+        <tedi-select-option value="option16" label="Option 16" />
+        <tedi-select-option value="option17" label="Option 17" />
+        <tedi-select-option value="option18" label="Option 18" />
+        <tedi-select-option value="option19" label="Option 19" />
+        <tedi-select-option value="option20" label="Option 20" />
+      </tedi-multiselect>
+    `,
+    props: {
+      ...args,
+    },
+  }),
+};
+
 export const multiselectNoOptions: Story = {
   render: (args) => ({
     template: `
